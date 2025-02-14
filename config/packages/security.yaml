@@ -1,0 +1,26 @@
+security:
+  encoders:
+    App\Entity\User:
+      algorithm: bcrypt
+
+  providers:
+    in_memory:
+      memory:
+        users:
+          admin:
+            password: "admin"
+            roles: "ROLE_ADMIN"
+
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    # main:
+    #   anonymous: true
+    #   form_login:
+    #     login_path: login
+    #     check_path: login
+    #   logout:
+    #     path: logout
+    #   guard:
+    #     authenticator: App\Security\LoginAuthenticator
