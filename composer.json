@@ -14,7 +14,7 @@
   },
   "require": {
     "php": ">=5.5.9",
-    "symfony/symfony": "^5.4",
+    "symfony/symfony": "^6.4",
     "doctrine/orm": "^2.20",
     "symfony/monolog-bundle": "^3.8",
     "symfony/polyfill-apcu": "^1.0",
@@ -29,7 +29,8 @@
     "symfony/validator": "*",
     "symfony/twig-bundle": "*",
     "twig/extra-bundle": "^2.12|^3.0",
-    "twig/twig": "^2.12|^3.0"
+    "twig/twig": "^2.12|^3.0",
+    "symfony/routing": "*"
   },
   "require-dev": {
     "symfony/phpunit-bridge": "^3.0",

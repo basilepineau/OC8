@@ -1,8 +1,8 @@
 framework:
   secret: "%secret%"
-  # router:
-  #   resource: "%kernel.project_dir%/config/routes.yaml"
-  #   strict_requirements: ~
+  router:
+    utf8: true
+    strict_requirements: ~
   form: ~
   csrf_protection: ~
   validation: { enable_annotations: true }
