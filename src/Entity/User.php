@@ -44,7 +44,7 @@ class User implements UserInterface
         return $this->id;
     }
 
-    public function getUsername()
+    public function getUserIdentifier(): string
     {
         return $this->username;
     }
@@ -79,7 +79,7 @@ class User implements UserInterface
         $this->email = $email;
     }
 
-    public function getRoles()
+    public function getRoles(): array
     {
         return array('ROLE_USER');
     }
