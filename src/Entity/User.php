@@ -75,7 +75,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array('ROLE_USER');
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
     }
 }
