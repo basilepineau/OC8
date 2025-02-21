@@ -2,10 +2,11 @@ framework:
   secret: "%secret%"
   router:
     utf8: true
-    strict_requirements: ~
+    strict_requirements: null
   form: ~
   csrf_protection: ~
-  validation: { enable_annotations: true }
+  validation:
+    enable_attributes: true
   default_locale: "%locale%"
   trusted_hosts: ~
   session:
