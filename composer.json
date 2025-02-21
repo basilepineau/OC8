@@ -13,13 +13,12 @@
     }
   },
   "require": {
-    "php": ">=5.5.9",
+    "php": ">=8.1",
     "symfony/symfony": "^6.4",
     "doctrine/orm": "^2.20",
     "symfony/monolog-bundle": "^3.8",
     "symfony/polyfill-apcu": "^1.0",
     "doctrine/doctrine-bundle": "^2.0",
-    "sensio/framework-extra-bundle": "^6.2",
     "symfony/flex": "^1.21",
     "symfony/asset": "*",
     "symfony/mailer": "*",
@@ -30,7 +29,8 @@
     "symfony/twig-bundle": "*",
     "twig/extra-bundle": "^2.12|^3.0",
     "twig/twig": "^2.12|^3.0",
-    "symfony/routing": "*"
+    "symfony/routing": "*",
+    "doctrine/annotations": "^2.0"
   },
   "require-dev": {
     "symfony/phpunit-bridge": "^3.0",
