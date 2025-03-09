@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\RoleEnum;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -29,6 +30,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: 'Vous devez saisir une adresse email.')]
     #[Assert\Email(message: 'Le format de l\'adresse n\'est pas correcte.')]
     private string $email;
+
+    #[ORM\Column(enumType: RoleEnum::class)]
+    private ?RoleEnum $roles = null;
 
     public function getId()
     {
@@ -70,11 +74,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->email = $email;
     }
 
-    public function getRoles(): array
-    {
-        return array('ROLE_USER');
-    }
-
     public function eraseCredentials(): void
     {
     }
@@ -82,5 +81,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUsername(): string
     {
         return $this->username;
+    }
+
+    public function getRoles(): array
+    {
+        return $this->roles ? [$this->roles->value] : ['ROLE_USER'];
+    }
+
+    public function setRoles(RoleEnum $role): static
+    {
+        $this->roles = $role;
+
+        return $this;
     }
 }
