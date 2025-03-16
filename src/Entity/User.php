@@ -31,8 +31,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Email(message: 'Le format de l\'adresse n\'est pas correcte.')]
     private string $email;
 
-    #[ORM\Column(enumType: RoleEnum::class)]
-    private ?RoleEnum $roles = null;
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];    
 
     public function getId()
     {
@@ -85,13 +85,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        return $this->roles ? [$this->roles->value] : ['ROLE_USER'];
+        return empty($this->roles) ? ['ROLE_USER'] : $this->roles;
     }
-
-    public function setRoles(RoleEnum $role): static
+    
+    public function setRoles(array $roles): static
     {
-        $this->roles = $role;
+        $this->roles = array_unique(array_map(fn(RoleEnum $role) => $role->value, $roles));
+    
+        return $this;
+    }
+    
+    public function addRole(RoleEnum $role): static
+    {
+        if (!in_array($role->value, $this->roles, true)) {
+            $this->roles[] = $role->value;
+        }
+    
+        return $this;
+    }
+    
+    public function removeRole(RoleEnum $role): static
+    {
+        $this->roles = array_filter($this->roles, fn(string $r) => $r !== $role->value);
+    
+        return $this;
+    }    
+    
+    public function setSingleRole(RoleEnum $role): static
+    {
+        $this->roles = [$role->value];
 
         return $this;
     }
+
+    public function getRoleLabels(): array
+    {
+        return array_map(fn(string $role) => RoleEnum::from($role)->getLabel(), $this->roles);
+    }    
+
 }

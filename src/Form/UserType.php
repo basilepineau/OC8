@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class UserType extends AbstractType
 {
@@ -37,7 +39,19 @@ class UserType extends AbstractType
                 },
                 'expanded' => false,
                 'multiple' => false, 
-            ]);
+                'mapped' => false, // On empêche Symfony de faire le mapping automatique
+            ])
+            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                $user = $event->getData();
+                $form = $event->getForm();
+            
+                if ($form->has('roles')) {
+                    $selectedRole = $form->get('roles')->getData(); // Récupère le choix unique
+                    if ($selectedRole) {
+                        $user->setSingleRole($selectedRole); // Utilise notre setter spécial
+                    }
+                }
+            });         
         ;
     }
 }
