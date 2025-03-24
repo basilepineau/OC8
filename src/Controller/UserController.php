@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Enum\RoleEnum;
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
@@ -48,6 +49,11 @@ class UserController extends AbstractController
     public function editAction(User $user, Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher)
     {
         $form = $this->createForm(UserType::class, $user);
+
+        $currentRoles = $user->getRoles();
+        if (count($currentRoles) === 1) {
+            $form->get('roles')->setData(RoleEnum::from($currentRoles[0]));
+        }
 
         $form->handleRequest($request);
 
