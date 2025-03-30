@@ -23,15 +23,17 @@
                 </thead>
                 <tbody>
                 {% for user in users %}
-                    <tr>
-                        <th scope="row">{{ loop.index }}</th>
-                        <td>{{ user.username }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.getRoleLabels()|join(', ') }}</td>
-                        <td>
-                            <a href="{{ path('user_edit', {'id' : user.id}) }}" class="btn btn-success btn-sm">Edit</a>
-                        </td>
-                    </tr>
+                    {% if 'ROLE_ANONYME' not in user.roles %}
+                        <tr>
+                            <th scope="row">{{ loop.index - 1 }}</th>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.getRoleLabels()|join(', ') }}</td>
+                            <td>
+                                <a href="{{ path('user_edit', {'id' : user.id}) }}" class="btn btn-success btn-sm">Edit</a>
+                            </td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
                 </tbody>
             </table>

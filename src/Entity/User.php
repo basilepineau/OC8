@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Enum\RoleEnum;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,6 +16,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[UniqueEntity(fields: ['email'], message: 'Cette adresse e-mail est déjà utilisée.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public const ROLE_ANONYME = 'ROLE_ANONYME';
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ORM\Column(type: 'integer')]
@@ -32,7 +36,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $email;
 
     #[ORM\Column(type: 'json')]
-    private array $roles = [];    
+    private array $roles = [];
+
+    /**
+     * @var Collection<int, Task>
+     */
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Task::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $tasks;
+
+    public function __construct()
+    {
+        $this->tasks = new ArrayCollection();
+    }    
 
     public function getId()
     {
@@ -121,6 +136,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoleLabels(): array
     {
         return array_map(fn(string $role) => RoleEnum::from($role)->getLabel(), $this->roles);
+    }
+
+    /**
+     * @return Collection<int, Task>
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    public function addTask(Task $task): static
+    {
+        if (!$this->tasks->contains($task)) {
+            $this->tasks->add($task);
+            $task->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTask(Task $task): static
+    {
+        if ($this->tasks->removeElement($task)) {
+            // set the owning side to null (unless already changed)
+            if ($task->getUser() === $this) {
+                $task->setUser(null);
+            }
+        }
+
+        return $this;
     }    
 
 }
