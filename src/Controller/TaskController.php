@@ -75,7 +75,9 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
     public function deleteTaskAction(Task $task, EntityManagerInterface $em)
     {
-        if ($task->getUser() !== $this->getUser()) {
+        $user = $this->getUser();
+
+        if ($task->getUser() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
             $this->addFlash('error', 'Impossible de supprimer cette tâche. Elle ne vous appartient pas.');
             return $this->redirectToRoute('task_list');
         }
