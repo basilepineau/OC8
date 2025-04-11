@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Task;
+use App\Entity\User;
 use App\Form\TaskType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
@@ -13,10 +14,20 @@ class TaskController extends AbstractController
 {
 
     #[Route('/tasks', name: 'task_list')]
-    public function listAction(EntityManagerInterface $em)
+    public function listAction(Request $request, EntityManagerInterface $em)
     {
-        return $this->render('task/list.html.twig', ['tasks' => $em->getRepository(Task::class)->findAll()]);
-    }
+        $isDone = $request->query->getBoolean('done', false); // ?done=true
+    
+        $tasks = $em->getRepository(Task::class)->findBy([
+            'isDone' => $isDone,
+        ]);
+    
+        return $this->render('task/list.html.twig', [
+            'tasks' => $tasks,
+            'showDone' => $isDone,
+        ]);
+    }    
+
 
     #[Route('/tasks/create', name: 'task_create')]
     public function createAction(Request $request, EntityManagerInterface $em)
@@ -67,7 +78,7 @@ class TaskController extends AbstractController
         $task->toggle(!$task->isDone());
         $em->flush();
 
-        $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+        $this->addFlash('success', sprintf('La %s a bien été marquée comme terminée.', $task->getTitle()));
 
         return $this->redirectToRoute('task_list');
     }
@@ -75,11 +86,22 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
     public function deleteTaskAction(Task $task, EntityManagerInterface $em)
     {
+        // Si tâche de l'utilisateur "anonyme" et que l'utilisateur actuel n'est pas admin
+        if ($task->getUser() && in_array(User::ROLE_ANONYME, $task->getUser()->getRoles(), true) && !$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Seuls les administrateurs peuvent supprimer une tâche appartenant à un utilisateur anonyme.');
+            return $this->redirectToRoute('task_list');
+        }
+
+        if ($task->getUser() !== $this->getUser()) {
+            $this->addFlash('error', 'Impossible de supprimer cette tâche. Elle ne vous appartient pas.');
+            return $this->redirectToRoute('task_list');
+        }
+    
         $em->remove($task);
         $em->flush();
-
+    
         $this->addFlash('success', 'La tâche a bien été supprimée.');
-
+    
         return $this->redirectToRoute('task_list');
-    }
+    }    
 }
