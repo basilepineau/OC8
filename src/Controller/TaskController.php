@@ -9,6 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class TaskController extends AbstractController
 {
@@ -52,8 +54,15 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/{id}/edit', name: 'task_edit')]
-    public function editAction(Task $task, Request $request, EntityManagerInterface $em)
+    public function editAction(Task $task, Request $request, EntityManagerInterface $em, Security $security)
     {
+        $user = $security->getUser();
+
+        if ($task->getUser() !== $user && !$security->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Vous n\'avez pas le droit de modifier cette tâche car elle ne vous appartient pas.');
+            return $this->redirect($request->headers->get('referer') ?? $this->generateUrl('task_list'));
+        }
+
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
@@ -92,8 +101,8 @@ class TaskController extends AbstractController
             return $this->redirectToRoute('task_list');
         }
 
-        if ($task->getUser() !== $this->getUser()) {
-            $this->addFlash('error', 'Impossible de supprimer cette tâche. Elle ne vous appartient pas.');
+        if ($task->getUser() !== $this->getUser() && !in_array(User::ROLE_ANONYME, $task->getUser()->getRoles(), true)) {
+            $this->addFlash('error', 'Vous n\'avez pas le droit de supprimer cette tâche car elle ne vous appartient pas.');
             return $this->redirectToRoute('task_list');
         }
     
