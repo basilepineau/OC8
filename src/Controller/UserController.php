@@ -14,10 +14,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserController extends AbstractController
 {
-
     #[Route('/users', name: 'user_list')]
     public function listAction(EntityManagerInterface $em)
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Vous n\'avez pas le droit d\'accéder à cette page.');
+            return $this->redirectToRoute('homepage');
+        }
         return $this->render('user/list.html.twig', ['users' => $em->getRepository(User::class)->findAll()]);
     }
 
