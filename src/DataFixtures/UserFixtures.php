@@ -32,22 +32,13 @@ class UserFixtures extends Fixture
         $manager->persist($anonymous);
         $this->addReference(self::ANONYMOUS_REFERENCE, $anonymous);
 
-        // Administrateur connu pour se connecter
-        $admin = new User();
-        $admin->setUsername('admin');
-        $admin->setEmail('admin@example.com');
-        $admin->setRoles([RoleEnum::ADMIN]);
-        $admin->setPassword($this->hasher->hashPassword($admin, 'admin1234'));
-        $manager->persist($admin);
-        $this->addReference(self::ADMIN_REFERENCE . 'main', $admin);
-
         // 3 utilisateurs normaux
         for ($i = 1; $i <= 3; $i++) {
             $user = new User();
             $user->setUsername("user$i");
             $user->setEmail("user$i@example.com");
             $user->setRoles([RoleEnum::USER]);
-            $user->setPassword($this->hasher->hashPassword($user, 'password'));
+            $user->setPassword($this->hasher->hashPassword($user, "password$i"));
             $manager->persist($user);
             $this->addReference(self::USER_REFERENCE.$i, $user);
         }
@@ -58,7 +49,7 @@ class UserFixtures extends Fixture
             $admin->setUsername("admin$i");
             $admin->setEmail("admin$i@example.com");
             $admin->setRoles([RoleEnum::ADMIN]);
-            $admin->setPassword($this->hasher->hashPassword($admin, 'adminpass'));
+            $admin->setPassword($this->hasher->hashPassword($admin, "adminpass$i"));
             $manager->persist($admin);
             $this->addReference(self::ADMIN_REFERENCE.$i, $admin);
         }
