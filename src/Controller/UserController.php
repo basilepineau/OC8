@@ -25,9 +25,13 @@ class UserController extends AbstractController
     }
 
     #[Route('/users/create', name: 'user_create')]
-    #[IsGranted('ROLE_ADMIN')]
     public function createAction(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher)
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Vous n\'avez pas le droit d\'accéder à cette page.');
+            return $this->redirectToRoute('homepage');
+        }
+
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
