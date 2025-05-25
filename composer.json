@@ -38,7 +38,8 @@
     "doctrine/doctrine-fixtures-bundle": "^3.4",
     "symfony/stopwatch": "^7.2",
     "symfony/web-profiler-bundle": "^7.2",
-    "symfony/debug-bundle": "^7.2"
+    "symfony/debug-bundle": "^7.2",
+    "phpunit/phpunit": "^12.1"
   },
   "scripts": {
     "symfony-scripts": [
