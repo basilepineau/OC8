@@ -64,11 +64,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->username = $username;
     }
 
-    public function getSalt()
-    {
-        return null;
-    }
-
     public function getPassword(): ?string
     {
         return $this->password;
