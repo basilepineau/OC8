@@ -38,6 +38,9 @@ class Task
         $this->isDone = false;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getId()
     {
         return $this->id;

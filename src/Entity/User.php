@@ -49,6 +49,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->tasks = new ArrayCollection();
     }    
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getId()
     {
         return $this->id;
@@ -84,6 +87,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->email = $email;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function eraseCredentials(): void
     {
     }
