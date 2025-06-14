@@ -14,6 +14,8 @@
         <ini name="error_reporting" value="-1" />
         <server name="APP_ENV" value="test" force="true" />
         <server name="SHELL_VERBOSITY" value="-1" />
+        <env name="KERNEL_CLASS" value="App\Kernel" />
+        <env name="DATABASE_URL" value="mysql://root:root@127.0.0.1:8889/OC8?serverVersion=8.0.31"/>
     </php>
 
     <testsuites>
