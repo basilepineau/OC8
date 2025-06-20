@@ -32,10 +32,11 @@ class UserControllerTest extends WebTestCase
     {
         // Supprime tous les users de test potentiels pour éviter les doublons
         $users = $this->userRepository->createQueryBuilder('u')
-            ->where('u.username LIKE :prefix OR u.username = :admin OR u.username = :edit')
+            ->where('u.username LIKE :prefix OR u.username = :admin OR u.username = :edit OR u.username = :userrole')
             ->setParameter('prefix', 'testuser_%')
             ->setParameter('admin', 'admin')
             ->setParameter('edit', 'test_edit')
+            ->setParameter('userrole', 'test_userrole')
             ->getQuery()
             ->getResult();
 
@@ -51,6 +52,23 @@ class UserControllerTest extends WebTestCase
         $this->assertResponseRedirects('/login');
     }
 
+    public function testAccessDeniedForUserOnList()
+    {
+        $user = new User();
+        $user->setUsername('test_userrole');
+        $user->setEmail('test_userrole@example.com');
+        $user->setPassword('motdepasse');
+        $user->setRoles([RoleEnum::USER]);
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $this->client->loginUser($user);
+        $this->client->request('GET', '/users');
+        $this->assertResponseRedirects('/');
+        $this->client->followRedirect();
+        $this->assertSelectorTextContains('.alert-danger', 'Vous n\'avez pas le droit d\'accéder à cette page.');
+    }
+
     public function testAccessGrantedForAdminOnList()
     {
         $this->loginAsAdmin();
@@ -63,6 +81,23 @@ class UserControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/users/create');
         $this->assertResponseRedirects('/login');
+    }
+
+    public function testAccessDeniedForUserOnCreate()
+    {
+        $user = new User();
+        $user->setUsername('test_userrole');
+        $user->setEmail('test_userrole@example.com');
+        $user->setPassword('motdepasse');
+        $user->setRoles([RoleEnum::USER]);
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $this->client->loginUser($user);
+        $this->client->request('GET', '/users/create');
+        $this->assertResponseRedirects('/');
+        $this->client->followRedirect();
+        $this->assertSelectorTextContains('.alert-danger', 'Vous n\'avez pas le droit d\'accéder à cette page.');
     }
 
     public function testCreateUser()
