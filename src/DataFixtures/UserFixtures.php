@@ -16,11 +16,17 @@ class UserFixtures extends Fixture
 
     private UserPasswordHasherInterface $hasher;
 
+    /**
+     * @codeCoverageIgnore
+    */
     public function __construct(UserPasswordHasherInterface $hasher)
     {
         $this->hasher = $hasher;
     }
 
+    /**
+     * @codeCoverageIgnore
+    */
     public function load(ObjectManager $manager): void
     {
         // Utilisateur anonyme
