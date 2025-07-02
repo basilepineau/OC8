@@ -10,6 +10,9 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class TaskFixtures extends Fixture implements DependentFixtureInterface
 {
+    /**
+     * @codeCoverageIgnore
+    */
     public function load(ObjectManager $manager): void
     {
         // 20 tâches associées à différents utilisateurs
@@ -37,6 +40,9 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
+    /**
+     * @codeCoverageIgnore
+    */
     public function getDependencies(): array
     {
         return [
