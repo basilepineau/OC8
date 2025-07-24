@@ -142,7 +142,6 @@ class TaskControllerTest extends WebTestCase
     public function testAdminCanDeleteAnonymousTask(): void
     {
         $anonymous = $this->userRepository->findOneBy(['email' => 'anon@anon.com']);
-        $admin = $this->userRepository->findOneBy(['email' => 'admin@user.com']);
 
         $task = $this->createTaskForUser(
             $anonymous,
