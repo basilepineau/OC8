@@ -102,6 +102,24 @@ php bin/phpunit
 
 ---
 
+## Demo Users for Testing
+
+After running the fixtures (`php bin/console doctrine:fixtures:load`), several users are automatically created in the database for testing and demonstration purposes:
+
+| Username       | Email               | Password     | Role         |
+|----------------|---------------------|--------------|--------------|
+| `user1`        | user1@example.com    | password1    | ROLE_USER    |
+| `user2`        | user2@example.com    | password2    | ROLE_USER    |
+| `user3`        | user3@example.com    | password3    | ROLE_USER    |
+| `admin1`       | admin1@example.com   | adminpass1   | ROLE_ADMIN   |
+| `admin2`       | admin2@example.com   | adminpass2   | ROLE_ADMIN   |
+| `admin3`       | admin3@example.com   | adminpass3   | ROLE_ADMIN   |
+| `anonyme`      | anonyme@example.com  | anonyme      | ROLE_ANONYMOUS |
+
+These accounts can be used to log in and test role-based access control across the app.
+
+---
+
 ## Key Features
 
 - Task management (CRUD)
