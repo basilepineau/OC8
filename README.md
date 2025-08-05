@@ -72,7 +72,7 @@ Copy the `.env` file if needed:
 cp .env .env.local
 ```
 
-Edit the database parameters in `.env`:
+Edit the database parameters in `.env.local`:
 
 ```dotenv
 DATABASE_URL="mysql://username:password@127.0.0.1:3306/OC8"
