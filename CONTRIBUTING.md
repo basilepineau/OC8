@@ -99,4 +99,4 @@ We foster a respectful and inclusive environment. Harassment, discrimination, or
 
 ---
 
-Thanks for contributing! 
+Thanks for contributing ! 
