@@ -1,11 +1,11 @@
-# 🛠️ ToDo & Co - Refactoring and Enhancement
+# ToDo & Co - Refactoring and Enhancement
 
 This project is part of **Project 8 of the PHP/Symfony Developer path** at OpenClassrooms.
 The objective is to **analyze an existing Symfony application**, understand its architecture, and propose **technical and functional improvements** while applying best practices in web development (architecture, testing, security, etc.).
 
 ---
 
-## 🚀 Project Goals
+## Project Goals
 
 - Understand a legacy Symfony codebase
 - Identify good and bad practices
@@ -16,7 +16,7 @@ The objective is to **analyze an existing Symfony application**, understand its 
 
 ---
 
-## 🧱 Technologies Used
+## Technologies Used
 
 - PHP ^8.x
 - Symfony ^6.x
@@ -29,7 +29,7 @@ The objective is to **analyze an existing Symfony application**, understand its 
 
 ---
 
-## 🗂 Project Structure
+## Project Structure
 
 ```
 OC8/
@@ -49,7 +49,7 @@ OC8/
 
 ---
 
-## ⚙️ Installation
+## Installation
 
 ### 1. Clone the repository
 
@@ -94,7 +94,7 @@ symfony server:start
 
 ---
 
-## ✅ Run tests
+## Run tests
 
 ```bash
 php bin/phpunit
@@ -102,7 +102,7 @@ php bin/phpunit
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 - Task management (CRUD)
 - User authentication
@@ -113,7 +113,7 @@ php bin/phpunit
 
 ---
 
-## 🧪 Improvements Implemented
+## Improvements Implemented
 
 - Bug fixes and code cleanup
 - Refactoring components
@@ -123,7 +123,7 @@ php bin/phpunit
 
 ---
 
-## 📄 License
+## License
 
 This project was created for educational purposes.  
 License: [MIT](LICENSE)
