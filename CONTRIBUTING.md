@@ -1,13 +1,13 @@
 
 # Contributing Guide
 
-Welcome to the **ToDo & Co** project! This document will help you contribute effectively and follow the established development workflow.
+Welcome to the **ToDo & Co** project ! This document will help you contribute effectively and follow the established development workflow.
 
 ---
 
 ## Project Workflow
 
-We use the **GitFlow** branching model:
+We use the **GitFlow** branching model :
 
 - `main`: contains production-ready code (tagged versions).
 - `develop`: contains the latest development version.
