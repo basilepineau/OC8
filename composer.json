@@ -41,7 +41,9 @@
     "phpunit/phpunit": "^12.1",
     "symfony/browser-kit": "^7.3",
     "symfony/dom-crawler": "^7.3",
-    "symfony/css-selector": "^7.3"
+    "symfony/css-selector": "^7.3",
+    "doctrine/doctrine-migrations-bundle": "^3.4",
+    "symfony/flex": "^2.8"
   },
   "scripts": {
     "symfony-scripts": [
