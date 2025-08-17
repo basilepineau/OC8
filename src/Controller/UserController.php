@@ -54,6 +54,11 @@ class UserController extends AbstractController
     #[Route('/users/{id}/edit', name: 'user_edit')]
     public function editAction(User $user, Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher)
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Vous n\'avez pas le droit d\'accéder à cette page.');
+            return $this->redirectToRoute('homepage');
+        }
+        
         $form = $this->createForm(UserType::class, $user);
 
         $currentRoles = $user->getRoles();
